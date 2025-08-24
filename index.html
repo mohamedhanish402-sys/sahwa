@@ -1,667 +1,142 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>صحوة - مقاطعة المشاهير</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولّد الاقتباسات</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+        /* CSS: لتصميم الصفحة */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
 
-      body {
-        font-family: "Cairo", sans-serif;
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-        color: #ffffff;
-        line-height: 1.6;
-        overflow-x: hidden;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      /* Header */
-      header {
-        background: linear-gradient(
-          135deg,
-          #d62d20 0%,
-          #ffffff 25%,
-          #008000 50%,
-          #000000 100%
-        );
-        padding: 2rem 0;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      header::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.3);
-        z-index: 1;
-      }
-
-      header .container {
-        position: relative;
-        z-index: 2;
-      }
-
-      .logo {
-        font-size: 3rem;
-        font-weight: 800;
-        color: #ffffff;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        margin-bottom: 1rem;
-        animation: pulse 2s ease-in-out infinite alternate;
-      }
-
-      @keyframes pulse {
-        from {
-          transform: scale(1);
-        }
-        to {
-          transform: scale(1.05);
-        }
-      }
-
-      .subtitle {
-        font-size: 1.2rem;
-        color: #ffffff;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      /* Main Content */
-      .main-content {
-        padding: 3rem 0;
-      }
-
-      .intro-section {
-        text-align: center;
-        margin-bottom: 3rem;
-        background: rgba(0, 0, 0, 0.3);
-        padding: 2rem;
-        border-radius: 15px;
-        border: 2px solid #d62d20;
-      }
-
-      .intro-text {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: #ff6b6b;
-        margin-bottom: 2rem;
-        line-height: 1.8;
-      }
-
-      .boycott-btn {
-        background: linear-gradient(135deg, #d62d20 0%, #ff0000 100%);
-        color: white;
-        border: none;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-        font-weight: 700;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(214, 45, 32, 0.3);
-      }
-
-      .boycott-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(214, 45, 32, 0.5);
-      }
-
-      /* Modal */
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
-      }
-
-      .modal-content {
-        background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
-        margin: 5% auto;
-        padding: 2rem;
-        border: 2px solid #d62d20;
-        border-radius: 15px;
-        width: 90%;
-        max-width: 800px;
-        max-height: 80vh;
-        overflow-y: auto;
-        position: relative;
-      }
-
-      .close {
-        color: #d62d20;
-        float: left;
-        font-size: 2rem;
-        font-weight: bold;
-        cursor: pointer;
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-      }
-
-      .close:hover {
-        color: #ff0000;
-      }
-
-      .modal-text {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: #ffffff;
-        margin-top: 2rem;
-      }
-
-      /* Celebrities Grid */
-      .celebrities-section {
-        margin: 3rem 0;
-      }
-
-      .section-title {
-        text-align: center;
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #d62d20;
-        margin-bottom: 2rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-
-      .celebrities-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin-top: 2rem;
-      }
-
-      .celebrity-card {
-        background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
-        border: 2px solid #d62d20;
-        border-radius: 15px;
-        padding: 1.5rem;
-        text-align: center;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .celebrity-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(214, 45, 32, 0.1),
-          transparent
-        );
-        transition: left 0.5s;
-      }
-
-      .celebrity-card:hover::before {
-        left: 100%;
-      }
-
-      .celebrity-card:hover {
-        transform: translateY(-5px);
-        border-color: #ff0000;
-        box-shadow: 0 10px 25px rgba(214, 45, 32, 0.3);
-      }
-
-      .celebrity-image {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        margin: 0 auto 1rem;
-        border: 3px solid #d62d20;
-        background: #333;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 3rem;
-        color: #666;
-      }
-
-      .celebrity-name {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 0.5rem;
-      }
-
-      .celebrity-note {
-        font-size: 0.9rem;
-        color: #ff6b6b;
-        margin-bottom: 1rem;
-        font-style: italic;
-      }
-
-      .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .social-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: #333;
-        color: white;
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        border-radius: 25px;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-        border: 1px solid #555;
-      }
-
-      .social-link:hover {
-        background: #d62d20;
-        border-color: #d62d20;
-        transform: scale(1.05);
-      }
-
-      .social-icon {
-        width: 16px;
-        height: 16px;
-      }
-
-      /* Security Notice */
-      .security-notice {
-        background: linear-gradient(135deg, #008000 0%, #006400 100%);
-        border: 2px solid #00ff00;
-        border-radius: 15px;
-        padding: 1.5rem;
-        margin: 2rem 0;
-        text-align: center;
-        box-shadow: 0 4px 15px rgba(0, 128, 0, 0.2);
-      }
-
-      .security-text {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #ffffff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-      }
-
-      /* Reminder Section */
-      .reminder-section {
-        background: rgba(214, 45, 32, 0.1);
-        border: 2px solid #d62d20;
-        border-radius: 15px;
-        padding: 2rem;
-        margin: 3rem 0;
-        text-align: center;
-      }
-
-      .reminder-text {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #ff6b6b;
-        margin-bottom: 1rem;
-      }
-
-      /* Footer */
-      .footer {
-        background: rgba(0, 0, 0, 0.3);
-        padding: 2rem 0;
-        text-align: center;
-        border-top: 2px solid #d62d20;
-      }
-
-      .libya-section {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-      }
-
-      .libya-map {
-        width: 60px;
-        height: 40px;
-        background: #008000;
-        border: 2px solid #d62d20;
-        border-radius: 8px;
-        position: relative;
-      }
-
-      .libya-map::before {
-        content: "🇱🇾";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 1.2rem;
-      }
-
-      .signature {
-        color: #d62d20;
-        font-weight: 700;
-        font-size: 1.1rem;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .logo {
-          font-size: 2rem;
+        body {
+            background-color: #121212; /* خلفية داكنة */
+            color: #e0e0e0; /* لون نص فاتح */
+            font-family: 'Tajawal', sans-serif; /* خط عربي أنيق */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            transition: background-color 0.5s;
         }
 
-        .subtitle {
-          font-size: 1rem;
+        .quote-container {
+            background-color: #1e1e1e;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            width: 80%;
+            max-width: 600px;
+            transform: scale(0.95);
+            transition: transform 0.3s ease-in-out;
         }
 
-        .celebrities-grid {
-          grid-template-columns: 1fr;
-          gap: 1rem;
+        .quote-container:hover {
+            transform: scale(1);
         }
 
-        .modal-content {
-          width: 95%;
-          margin: 10% auto;
-          padding: 1.5rem;
+        #quote-text {
+            font-size: 1.7rem; /* حجم خط الاقتباس */
+            margin-bottom: 20px;
+            min-height: 100px; /* ارتفاع أدنى لمنع اهتزاز التصميم */
+            line-height: 1.6;
+            transition: opacity 0.5s;
         }
 
-        .social-links {
-          gap: 0.5rem;
+        #quote-author {
+            font-size: 1.2rem;
+            color: #bb86fc; /* لون مميز لاسم المؤلف */
+            font-weight: bold;
+            margin-bottom: 30px;
+            transition: opacity 0.5s;
         }
 
-        .social-link {
-          padding: 0.4rem 0.8rem;
-          font-size: 0.8rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .container {
-          padding: 0 10px;
-        }
-
-        .intro-section {
-          padding: 1rem;
+        #new-quote-btn {
+            background-color: #03dac6; /* لون زر مميز */
+            color: #121212; /* لون نص الزر */
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
-        .intro-text {
-          font-size: 1.1rem;
+        #new-quote-btn:hover {
+            background-color: #018786;
+            transform: translateY(-3px); /* تأثير بسيط عند المرور */
         }
-
-        .celebrity-card {
-          padding: 1rem;
-        }
-
-        .celebrity-image {
-          width: 100px;
-          height: 100px;
-        }
-      }
     </style>
-  </head>
-  <body>
-    <header>
-      <div class="container">
-        <h1 class="logo">🚫 صحوة</h1>
-        <p class="subtitle">
-          لا تدعك بهم رحمة ولا شفقة - قف عن دعم من لا يستحق
-        </p>
-      </div>
-    </header>
+</head>
+<body>
 
-    <main class="main-content">
-      <div class="container">
-        <!-- Security Notice -->
-        <section class="security-notice">
-          <p class="security-text">
-            🔒 موقع آمن 100% - لا نجمع أي بيانات شخصية - هدفنا الوحيد تحقيق
-            العدالة لقضايانا
-          </p>
-        </section>
-
-        <section class="intro-section">
-          <p class="intro-text">
-            هؤلاء يسرقون وقتك، ويتربحون من متابعتك، وهم ليسوا منك ولا يشبهونك
-            <br />
-            لم يتكلموا عن قضاياك، لا يعرفونك، ولا يهمهم أمرك
-          </p>
-          <button class="boycott-btn" onclick="openModal()">
-            📋 اضغط هنا لمعرفة أسباب المقاطعة
-          </button>
-        </section>
-
-        <section class="celebrities-section">
-          <h2 class="section-title">⚠️ قائمة المقاطعة</h2>
-          <div class="celebrities-grid" id="celebritiesGrid">
-            <!-- سيتم إضافة البيانات هنا بالجافاسكريبت -->
-          </div>
-        </section>
-
-        <section class="reminder-section">
-          <p class="reminder-text">
-            ✊ وجّه دعمك لمن يشبهك، لمن يشعر بألمك، لمن يتحدث عن قضيتك الأولى
-            والأخيرة: غزة
-          </p>
-        </section>
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="libya-section">
-          <div class="libya-map"></div>
-          <span class="signature">سبيتموس سيفيروس</span>
-        </div>
-        <p style="color: #999; font-size: 0.9rem">
-          © 2025 صحوة - من أجل قضايانا العادلة
-        </p>
-      </div>
-    </footer>
-
-    <!-- Modal -->
-    <div id="reasonsModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2 style="color: #d62d20; margin-bottom: 1rem">🚫 أسباب المقاطعة</h2>
-        <div class="modal-text">
-          <p>
-            🚫 لا تدعك بهم رحمة ولا شفقة هؤلاء يسرقون وقتك، ويتربحون من متابعتك،
-            وهم ليسوا منك ولا يشبهونك. هؤلاء لم يتكلموا عن قضاياك، لا يعرفونك،
-            ولا يهمهم أمرك.
-          </p>
-
-          <p>
-            تخيّل كم من أهل غزة الجريحة يتابعونهم، وهم لا يلقون لهم بالًا. تخيّل
-            كم فقير ومظلوم ضائع، لم يلتفتوا إليه.
-          </p>
-
-          <p>
-            تخيّل كيف لعبوا بعقول الشباب، حتى وصل الحال ببعضهن أن يتفاخرن
-            بعلاقات تخالف كل قيمنا ومعتقداتنا.
-          </p>
-
-          <p>
-            تأمل كيف يستعرضون بيوتهم وسياراتهم وأموالهم، بينما هم أبعد ما يكون
-            عن همومك وآلامك.
-          </p>
-
-          <p>
-            وتذكّر أن هؤلاء قد يصبحون القدوة التي تشكل عقول أبنائنا وبناتنا
-            وإخوتنا الصغار. وقد نجحوا بالفعل مع جيل كامل من الشباب.
-          </p>
-
-          <p>
-            <strong style="color: #ff6b6b"
-              >⚠️ فلا تظلم جيل المستقبل، ولا تجعلهم أسرى لهذه الأوهام.</strong
-            >
-          </p>
-
-          <p>
-            <strong style="color: #d62d20"
-              >✊ قف عن دعم من لا يستحق، ووجّه دعمك لمن يشبهك، لمن يشعر بألمك،
-              لمن يتحدث عن قضيتك الأولى والأخيرة: غزة… غزة فقط، ولا غير
-              غزة.</strong
-            >
-          </p>
-        </div>
-      </div>
+    <div class="quote-container">
+        <p id="quote-text">اضغط على الزر أدناه للحصول على اقتباس ملهم!</p>
+        <h3 id="quote-author"></h3>
+        <button id="new-quote-btn">اقتباس جديد</button>
     </div>
 
     <script>
-      // بيانات المشاهير (يمكنك تعديلها حسب الحاجة)
-      const celebrities = [
-        {
-          name: "مثال 1",
-          note: "لم يتحدث عن قضايا الأمة",
-          image: "👤",
-          social: {
-            facebook: "https://facebook.com/example1",
-            instagram: "https://instagram.com/example1",
-            tiktok: "https://tiktok.com/@example1",
-            snapchat: "https://snapchat.com/add/example1",
-          },
-        },
-        {
-          name: "مثال 2",
-          note: "يتجاهل معاناة الشعب",
-          image: "👤",
-          social: {
-            facebook: "https://facebook.com/example2",
-            instagram: "https://instagram.com/example2",
-            tiktok: "https://tiktok.com/@example2",
-            snapchat: "https://snapchat.com/add/example2",
-          },
-        },
-        {
-          name: "مثال 3",
-          note: "يروج لثقافة دخيلة",
-          image: "👤",
-          social: {
-            facebook: "https://facebook.com/example3",
-            instagram: "https://instagram.com/example3",
-            tiktok: "https://tiktok.com/@example3",
-            snapchat: "https://snapchat.com/add/example3",
-          },
-        },
-      ];
+        // JavaScript: لجعل الصفحة تفاعلية
 
-      // SVG Icons
-      const icons = {
-        facebook:
-          '<svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M18.77 7.46H15.5v-1.9c0-.9.6-1.1 1-1.1h2.2V2.5h-3c-2.8 0-4.7 2.1-4.7 5.1v1.9H8.5v2.9h2.5V20h3v-7.5h2.4l.3-2.9z"/></svg>',
-        instagram:
-          '<svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>',
-        tiktok:
-          '<svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>',
-        snapchat:
-          '<svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.042-3.441.219-.937 1.404-5.957 1.404-5.957s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.562-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.888-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.357-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/></svg>',
-      };
+        const quotes = [
+            {
+                text: "العقل الذي لا يتغير هو عقل في أغلال.",
+                author: "سقراط"
+            },
+            {
+                text: "الحياة ليست عن إيجاد نفسك، بل عن خلق نفسك.",
+                author: "جورج برنارد شو"
+            },
+            {
+                text: "النجاح هو الانتقال من فشل إلى فشل دون فقدان الحماس.",
+                author: "ونستون تشرشل"
+            },
+            {
+                text: "الطريقة الوحيدة لعمل أشياء عظيمة هي أن تحب ما تفعله.",
+                author: "ستيف جوبز"
+            },
+            {
+                text: "لا تخف من التخلي عن الجيد للحصول على الأفضل.",
+                author: "جون د. روكفلر"
+            },
+            {
+                text: "أفضل وقت لزراعة شجرة كان قبل 20 عامًا. ثاني أفضل وقت هو الآن.",
+                author: "مثل صيني"
+            }
+        ];
 
-      // وظيفة إنشاء بطاقة مشهور
-      function createCelebrityCard(celebrity) {
-        const socialLinks = Object.entries(celebrity.social)
-          .map(
-            ([platform, url]) => `
-                    <a href="${url}" class="social-link" target="_blank" rel="noopener">
-                        ${icons[platform] || "🔗"}
-                        ${
-                          platform === "facebook"
-                            ? "فيسبوك"
-                            : platform === "instagram"
-                            ? "انستغرام"
-                            : platform === "tiktok"
-                            ? "تيك توك"
-                            : platform === "snapchat"
-                            ? "سناب شات"
-                            : platform
-                        }
-                    </a>
-                `
-          )
-          .join("");
+        const quoteTextElem = document.getElementById('quote-text');
+        const quoteAuthorElem = document.getElementById('quote-author');
+        const newQuoteBtn = document.getElementById('new-quote-btn');
 
-        return `
-                <div class="celebrity-card">
-                    <div class="celebrity-image">${celebrity.image}</div>
-                    <h3 class="celebrity-name">${celebrity.name}</h3>
-                    <p class="celebrity-note">${celebrity.note}</p>
-                    <div class="social-links">
-                        ${socialLinks}
-                    </div>
-                </div>
-            `;
-      }
+        function getNewQuote() {
+            // اختيار اقتباس عشوائي من المصفوفة
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const randomQuote = quotes[randomIndex];
+            
+            // إضافة تأثير التلاشي قبل تغيير النص
+            quoteTextElem.style.opacity = 0;
+            quoteAuthorElem.style.opacity = 0;
 
-      // إنشاء الشبكة
-      function renderCelebrities() {
-        const grid = document.getElementById("celebritiesGrid");
-        grid.innerHTML = celebrities.map(createCelebrityCard).join("");
-      }
-
-      // وظائف المودال
-      function openModal() {
-        document.getElementById("reasonsModal").style.display = "block";
-      }
-
-      function closeModal() {
-        document.getElementById("reasonsModal").style.display = "none";
-      }
-
-      // إغلاق المودال عند النقر خارجه
-      window.onclick = function (event) {
-        const modal = document.getElementById("reasonsModal");
-        if (event.target === modal) {
-          closeModal();
+            setTimeout(() => {
+                quoteTextElem.textContent = `“${randomQuote.text}”`;
+                quoteAuthorElem.textContent = `- ${randomQuote.author}`;
+                // إعادة إظهار النص بتأثير التلاشي للداخل
+                quoteTextElem.style.opacity = 1;
+                quoteAuthorElem.style.opacity = 1;
+            }, 500); // نصف ثانية لتأثير التلاشي
         }
-      };
 
-      // تشغيل الموقع
-      document.addEventListener("DOMContentLoaded", function () {
-        renderCelebrities();
-      });
+        // ربط وظيفة تغيير الاقتباس بحدث النقر على الزر
+        newQuoteBtn.addEventListener('click', getNewQuote);
 
-      // إضافة تأثيرات التمرير
-      window.addEventListener("scroll", function () {
-        const cards = document.querySelectorAll(".celebrity-card");
-        cards.forEach((card) => {
-          const cardTop = card.getBoundingClientRect().top;
-          const cardVisible = 150;
+        // عرض اقتباس عند تحميل الصفحة لأول مرة
+        getNewQuote();
 
-          if (cardTop < window.innerHeight - cardVisible) {
-            card.style.opacity = "1";
-            card.style.transform = "translateY(0)";
-          } else {
-            card.style.opacity = "0.7";
-            card.style.transform = "translateY(20px)";
-          }
-        });
-      });
     </script>
-  </body>
+</body>
 </html>
