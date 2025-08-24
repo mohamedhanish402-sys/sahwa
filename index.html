@@ -1,142 +1,356 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مولّد الاقتباسات</title>
-    <style>
-        /* CSS: لتصميم الصفحة */
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>محمد — مطوّر برمجيات</title>
+  <meta name="description" content="صفحة هبوط شخصية أنيقة وخفيفة لمطوّر برمجيات عربي." />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #121a32;
+      --text: #e9ecf1;
+      --muted: #a9b3c9;
+      --accent: #2ac9ff; /* تركوازي */
+      --accent-2: #5b7cfa; /* أزرق */
+      --ring: rgba(42, 201, 255, .5);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    :root.light {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #0f1320;
+      --muted: #4a5567;
+      --accent: #0087c7;
+      --accent-2: #5b7cfa;
+      --ring: rgba(0, 135, 199, .25);
+      --shadow: 0 8px 24px rgba(12, 22, 46, .08);
+    }
 
-        body {
-            background-color: #121212; /* خلفية داكنة */
-            color: #e0e0e0; /* لون نص فاتح */
-            font-family: 'Tajawal', sans-serif; /* خط عربي أنيق */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-            transition: background-color 0.5s;
-        }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: "Tajawal", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(42,201,255,.10), transparent 60%),
+                  radial-gradient(800px 400px at 10% 10%, rgba(91,124,250,.10), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      scroll-behavior: smooth;
+    }
 
-        .quote-container {
-            background-color: #1e1e1e;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            width: 80%;
-            max-width: 600px;
-            transform: scale(0.95);
-            transition: transform 0.3s ease-in-out;
-        }
+    /* الحاوية الأساسية */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-        .quote-container:hover {
-            transform: scale(1);
-        }
+    /* شريط علوي */
+    header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(140%) blur(8px); background: color-mix(in oklab, var(--bg) 80%, transparent); border-bottom: 1px solid color-mix(in oklab, var(--card) 70%, transparent); }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 12px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-weight: 800; letter-spacing: .5px; }
+    .logo {
+      width: 36px; height: 36px; border-radius: 14px; box-shadow: var(--shadow);
+      background: conic-gradient(from 180deg, var(--accent), var(--accent-2)); display: grid; place-items: center; position: relative;
+    }
+    .logo svg { width: 20px; height: 20px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
 
-        #quote-text {
-            font-size: 1.7rem; /* حجم خط الاقتباس */
-            margin-bottom: 20px;
-            min-height: 100px; /* ارتفاع أدنى لمنع اهتزاز التصميم */
-            line-height: 1.6;
-            transition: opacity 0.5s;
-        }
+    nav ul { list-style: none; display: flex; gap: 18px; padding: 0; margin: 0; }
+    nav a { text-decoration: none; color: var(--muted); font-weight: 600; padding: 8px 12px; border-radius: 12px; }
+    nav a.active, nav a:hover { color: var(--text); background: color-mix(in oklab, var(--card) 60%, transparent); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ring) 50%, transparent); }
 
-        #quote-author {
-            font-size: 1.2rem;
-            color: #bb86fc; /* لون مميز لاسم المؤلف */
-            font-weight: bold;
-            margin-bottom: 30px;
-            transition: opacity 0.5s;
-        }
+    .controls { display: flex; gap: 10px; align-items: center; }
+    .btn {
+      cursor: pointer; border: 0; border-radius: 14px; padding: 10px 14px; font-weight: 700; color: var(--text);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: var(--shadow);
+    }
+    .btn.secondary { background: var(--card); color: var(--text); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ring) 50%, transparent), var(--shadow); }
 
-        #new-quote-btn {
-            background-color: #03dac6; /* لون زر مميز */
-            color: #121212; /* لون نص الزر */
-            border: none;
-            padding: 15px 30px;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            outline: none;
-            transition: background-color 0.3s, transform 0.2s;
-        }
+    /* البطل */
+    .hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 30px; align-items: center; padding: 70px 0; }
+    .hero h1 { font-size: clamp(28px, 4vw, 46px); line-height: 1.2; margin: 0 0 14px; }
+    .hero p { color: var(--muted); margin: 0 0 22px; font-size: clamp(16px, 2vw, 18px); }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; border: 1px dashed color-mix(in oklab, var(--ring) 70%, transparent); background: color-mix(in oklab, var(--card) 60%, transparent); color: var(--muted); font-weight: 700; }
 
-        #new-quote-btn:hover {
-            background-color: #018786;
-            transform: translateY(-3px); /* تأثير بسيط عند المرور */
-        }
-    </style>
+    .hero-card { position: relative; background: var(--card); border-radius: 22px; padding: 24px; box-shadow: var(--shadow); overflow: hidden; }
+    .glow { position: absolute; inset: -40%; background: radial-gradient(400px 240px at 80% 10%, color-mix(in oklab, var(--accent) 40%, transparent), transparent 60%); pointer-events: none; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .stat { background: color-mix(in oklab, var(--card) 80%, transparent); border: 1px solid color-mix(in oklab, var(--ring) 60%, transparent); border-radius: 16px; padding: 14px; text-align: center; }
+    .stat .v { font-weight: 900; font-size: 22px; }
+    .stat .k { color: var(--muted); font-size: 13px; }
+
+    /* الأقسام */
+    section { padding: 60px 0; }
+    .grid { display: grid; gap: 18px; }
+    .grid.cards { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    .card { background: var(--card); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); border: 1px solid color-mix(in oklab, var(--ring) 55%, transparent); }
+    .card h3 { margin: 8px 0 6px; }
+    .card p { color: var(--muted); margin: 0; }
+
+    .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .skill { padding: 14px; background: color-mix(in oklab, var(--card) 80%, transparent); border-radius: 14px; border: 1px solid color-mix(in oklab, var(--ring) 55%, transparent); }
+    .bar { height: 10px; background: color-mix(in oklab, var(--card) 70%, transparent); border-radius: 999px; overflow: hidden; margin-top: 8px; }
+    .bar > i { display: block; height: 100%; width: var(--w, 0%); background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 1.2s ease; }
+
+    /* تذييل */
+    footer { padding: 24px 0 70px; color: var(--muted); border-top: 1px solid color-mix(in oklab, var(--card) 70%, transparent); }
+
+    /* زر العودة للأعلى */
+    .to-top { position: fixed; bottom: 20px; left: 20px; opacity: 0; transform: translateY(10px); transition: .3s ease; }
+    .to-top.show { opacity: 1; transform: none; }
+
+    /* تجاوبية */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="الانتقال إلى الأعلى">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 3l2.8 5.67 6.2.9-4.5 4.38 1.06 6.19L12 17.77 6.44 20.14 7.5 13.95 3 9.57l6.2-.9L12 3z" stroke="white" stroke-width="1.5"/>
+          </svg>
+        </span>
+        <span>محمد — مطوّر برمجيات</span>
+      </a>
 
-    <div class="quote-container">
-        <p id="quote-text">اضغط على الزر أدناه للحصول على اقتباس ملهم!</p>
-        <h3 id="quote-author"></h3>
-        <button id="new-quote-btn">اقتباس جديد</button>
+      <nav aria-label="تصفّح الأقسام">
+        <ul>
+          <li><a href="#about" class="active">نبذة</a></li>
+          <li><a href="#projects">المشاريع</a></li>
+          <li><a href="#skills">المهارات</a></li>
+          <li><a href="#contact">تواصل</a></li>
+        </ul>
+      </nav>
+
+      <div class="controls">
+        <button id="themeToggle" class="btn secondary" aria-pressed="false" aria-label="تبديل الوضع">الوضع: داكن</button>
+        <a href="#contact" class="btn">وظّفني</a>
+      </div>
     </div>
+  </header>
 
-    <script>
-        // JavaScript: لجعل الصفحة تفاعلية
+  <main id="top" class="container">
+    <section class="hero" id="about">
+      <div>
+        <span class="pill">جاهز لبناء أفكارك</span>
+        <h1>
+          أهلًا! أنا محمد 👋
+          <br />
+          <span id="typing" aria-live="polite"></span>
+        </h1>
+        <p>
+          مطوّر Full‑Stack أُتقن بناء واجهات عصرية وأنظمة Back‑End قوية. أركّز على الأداء، البساطة، وتجربة مستخدم مريحة.
+        </p>
+        <div class="stats">
+          <div class="stat"><div class="v" data-target="98">0</div><div class="k">مشروع/نموذج</div></div>
+          <div class="stat"><div class="v" data-target="12">0</div><div class="k">عميل سعيد</div></div>
+          <div class="stat"><div class="v" data-target="5">0</div><div class="k">سنوات خبرة</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="hero-card">
+          <div class="glow" aria-hidden="true"></div>
+          <div class="grid cards">
+            <article class="card">
+              <h3>لوحة تحكّم مبيعات</h3>
+              <p>نظام إدارة مخزون وفواتير مع إحصائيات حيّة وتقارير PDF.</p>
+            </article>
+            <article class="card">
+              <h3>مدوّنة تقنية</h3>
+              <p>واجهة Vue سريعة متصلة بـ ASP.NET Core API.</p>
+            </article>
+            <article class="card">
+              <h3>صفحة هبوط SaaS</h3>
+              <p>تصميم Flat نظيف مع تتبّع تحويلات بسيط.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        const quotes = [
-            {
-                text: "العقل الذي لا يتغير هو عقل في أغلال.",
-                author: "سقراط"
-            },
-            {
-                text: "الحياة ليست عن إيجاد نفسك، بل عن خلق نفسك.",
-                author: "جورج برنارد شو"
-            },
-            {
-                text: "النجاح هو الانتقال من فشل إلى فشل دون فقدان الحماس.",
-                author: "ونستون تشرشل"
-            },
-            {
-                text: "الطريقة الوحيدة لعمل أشياء عظيمة هي أن تحب ما تفعله.",
-                author: "ستيف جوبز"
-            },
-            {
-                text: "لا تخف من التخلي عن الجيد للحصول على الأفضل.",
-                author: "جون د. روكفلر"
-            },
-            {
-                text: "أفضل وقت لزراعة شجرة كان قبل 20 عامًا. ثاني أفضل وقت هو الآن.",
-                author: "مثل صيني"
-            }
-        ];
+    <section id="projects">
+      <h2>المشاريع</h2>
+      <div class="grid cards">
+        <article class="card">
+          <h3>POS قطع غيار</h3>
+          <p>إدارة مخازن، فواتير، وخزينة — Windows & Web.</p>
+        </article>
+        <article class="card">
+          <h3>تحليلات مبيعات</h3>
+          <p>لوحات WPF/WinForms مع LiveCharts ومؤشرات أداء.</p>
+        </article>
+        <article class="card">
+          <h3>نظام إشعارات</h3>
+          <p>تنبيهات دين للمستخدمين عند بلوغ عتبات مخصّصة.</p>
+        </article>
+        <article class="card">
+          <h3>واجهة متجر</h3>
+          <p>تصميم سريع الاستجابة مع سلة وطلب عبر واتساب.</p>
+        </article>
+      </div>
+    </section>
 
-        const quoteTextElem = document.getElementById('quote-text');
-        const quoteAuthorElem = document.getElementById('quote-author');
-        const newQuoteBtn = document.getElementById('new-quote-btn');
+    <section id="skills">
+      <h2>المهارات</h2>
+      <div class="skills">
+        <div class="skill">
+          <strong>C# / .NET</strong>
+          <div class="bar"><i style="--w: 0%" data-w="92%"></i></div>
+        </div>
+        <div class="skill">
+          <strong>ASP.NET Core API</strong>
+          <div class="bar"><i style="--w: 0%" data-w="88%"></i></div>
+        </div>
+        <div class="skill">
+          <strong>SQL Server & EF</strong>
+          <div class="bar"><i style="--w: 0%" data-w="86%"></i></div>
+        </div>
+        <div class="skill">
+          <strong>Vue / HTML / CSS</strong>
+          <div class="bar"><i style="--w: 0%" data-w="84%"></i></div>
+        </div>
+        <div class="skill">
+          <strong>UI/UX</strong>
+          <div class="bar"><i style="--w: 0%" data-w="80%"></i></div>
+        </div>
+      </div>
+    </section>
 
-        function getNewQuote() {
-            // اختيار اقتباس عشوائي من المصفوفة
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            const randomQuote = quotes[randomIndex];
-            
-            // إضافة تأثير التلاشي قبل تغيير النص
-            quoteTextElem.style.opacity = 0;
-            quoteAuthorElem.style.opacity = 0;
+    <section id="contact">
+      <h2>تواصل معي</h2>
+      <div class="card">
+        <form id="contactForm" novalidate>
+          <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+            <label>الاسم<input name="name" required placeholder="اسمك" style="width:100%"></label>
+            <label>البريد<input name="email" type="email" required placeholder="example@mail.com" style="width:100%"></label>
+          </div>
+          <label style="display:block; margin-top:10px;">رسالتك<textarea name="message" required placeholder="مرحبًا محمد…" rows="5" style="width:100%"></textarea></label>
+          <div style="display:flex; gap:10px; align-items:center; margin-top:10px;">
+            <button class="btn" type="submit">إرسال</button>
+            <span id="formHint" aria-live="polite" style="color:var(--muted);"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
 
-            setTimeout(() => {
-                quoteTextElem.textContent = `“${randomQuote.text}”`;
-                quoteAuthorElem.textContent = `- ${randomQuote.author}`;
-                // إعادة إظهار النص بتأثير التلاشي للداخل
-                quoteTextElem.style.opacity = 1;
-                quoteAuthorElem.style.opacity = 1;
-            }, 500); // نصف ثانية لتأثير التلاشي
+  <footer>
+    <div class="container">
+      © <span id="year"></span> محمد — كل الحقوق محفوظة. ✦ صُنعت بحب وتركيز.
+    </div>
+  </footer>
+
+  <button class="btn secondary to-top" id="toTop" aria-label="العودة للأعلى">↑</button>
+
+  <script>
+    // تفضيل الوضع
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light') root.classList.add('light');
+    themeBtn.textContent = `الوضع: ${root.classList.contains('light') ? 'فاتح' : 'داكن'}`;
+    themeBtn.setAttribute('aria-pressed', root.classList.contains('light'));
+    themeBtn.onclick = () => {
+      root.classList.toggle('light');
+      const isLight = root.classList.contains('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      themeBtn.textContent = `الوضع: ${isLight ? 'فاتح' : 'داكن'}`;
+      themeBtn.setAttribute('aria-pressed', isLight);
+    };
+
+    // كتابة متحركة
+    const roles = [
+      'Full‑Stack Developer',
+      'ASP.NET Core • Vue.js',
+      'Clean Code & DX Focus',
+      'Ready for Freelance ✦'
+    ];
+    const typing = document.getElementById('typing');
+    let i = 0, j = 0, deleting = false;
+    function type() {
+      const current = roles[i % roles.length];
+      typing.textContent = current.slice(0, j);
+      if (!deleting) {
+        j++;
+        if (j > current.length + 12) deleting = true;
+      } else {
+        j--;
+        if (j === 0) { deleting = false; i++; }
+      }
+      setTimeout(type, deleting ? 40 : 80);
+    }
+    type();
+
+    // عدّادات
+    const counters = document.querySelectorAll('.stat .v');
+    const counterIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target; const target = +el.dataset.target; let val = 0;
+          const step = Math.max(1, Math.round(target / 60));
+          const t = setInterval(() => {
+            val += step; if (val >= target) { val = target; clearInterval(t); }
+            el.textContent = val;
+          }, 20);
+          counterIO.unobserve(el);
         }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(c => counterIO.observe(c));
 
-        // ربط وظيفة تغيير الاقتباس بحدث النقر على الزر
-        newQuoteBtn.addEventListener('click', getNewQuote);
+    // أشرطة المهارات
+    const bars = document.querySelectorAll('.bar > i');
+    const barIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.setProperty('--w', e.target.dataset.w);
+          barIO.unobserve(e.target);
+        }
+      })
+    }, { threshold: .6 });
+    bars.forEach(b => barIO.observe(b));
 
-        // عرض اقتباس عند تحميل الصفحة لأول مرة
-        getNewQuote();
+    // تحديد رابط القسم النشط أثناء التمرير
+    const links = document.querySelectorAll('nav a');
+    const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
+    const sectionIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`nav a[href='#${entry.target.id}']`);
+          if (active) active.classList.add('active');
+        }
+      })
+    }, { threshold: .5 });
+    sections.forEach(s => s && sectionIO.observe(s));
 
-    </script>
+    // زر العودة للأعلى
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) toTop.classList.add('show'); else toTop.classList.remove('show');
+    });
+    toTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // نموذج التواصل
+    const form = document.getElementById('contactForm');
+    const hint = document.getElementById('formHint');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = (data.get('name')||'').toString().trim();
+      const email = (data.get('email')||'').toString().trim();
+      const message = (data.get('message')||'').toString().trim();
+      if (!name || !email || !message) { hint.textContent = 'يرجى تعبئة جميع الحقول.'; return; }
+      const mailto = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent('تواصل — موقع محمد')}&body=${encodeURIComponent(message + '\n\n— ' + name)}`;
+      hint.textContent = 'سيتم فتح برنامج البريد لديك…';
+      window.location.href = mailto;
+    });
+
+    // سنة التذييل
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
